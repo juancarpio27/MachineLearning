@@ -15,10 +15,14 @@ import math
 #B: second array
 #Out:
 #Eucledian distance between them
-def distance(A,B):
+def distance(A,B,named=False):
     result = 0.0
-    for i in range(0,8):
-        result = result + ((A[i]-B[i])*(A[i]-B[i]))
+    if named:
+        for i in range(0,len(A)-1):
+            result = result + ((A[i]-B[i])*(A[i]-B[i]))
+    else:
+        for i in range(0,len(A)):
+            result = result + ((A[i]-B[i])*(A[i]-B[i]))
     return math.sqrt(result)
 
 #Function that sort the array of distances,
@@ -47,7 +51,7 @@ def double_sort(k,distances,values):
 #k: number of neighbours
 #Out:
 #classification result: yes or no
-def knearest(k,data,example):
+def knearest(k,data,example,named=False):
 
     #Initiate values
     distances = []
@@ -55,18 +59,20 @@ def knearest(k,data,example):
 
     #First k values
     for i in range(0,k):
-        d = distance(example,data[i])
+        d = distance(example,data[i],named)
         distances.append(d)
-        values.append(data[i][8])
+        length = len(data[i])-1
+        values.append(data[i][length])
     double_sort(k,distances,values)
 
     #For each value calculate the distance. If it is less than the
     #maximun stored value, switch them and sort the array of neighbours
     for i in range (k+1,len(data)):
-        d = distance(example,data[i])
+        d = distance(example,data[i],named)
         if (d <= distances[k-1]):
             distances[k-1] = d
-            values[k-1] = data[i][8]
+            length = len(data[i])-1
+            values[k-1] = data[i][length]
             double_sort(k,distances,values)
 
     #Count values
