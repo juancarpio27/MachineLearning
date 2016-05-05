@@ -16,51 +16,48 @@ import math
 #for yes and no case, and probability of yes and no
 def train_nb(data):
     #Initialize yes values
-
-    length = len(data[0])-1
-
     yes_array = []
-    yes_mean = [0.0]*length
+    yes_mean = [0.0]*8
     yes_count = 0
 
     #Initialize no values
     no_array = []
-    no_mean = [0.0]*length
+    no_mean = [0.0]*8
     no_count = 0
 
     #Get the sum of every example and many of them are
     for i in range (0,len(data)):
-        if data[i][length] == 'yes':
+        if data[i][8] == 'yes':
             yes_count = yes_count + 1
             yes_array.append(data[i])
-            for j in range(0,length):
+            for j in range(0,8):
                 yes_mean[j] = yes_mean[j] + data[i][j]
         else:
             no_count = no_count + 1
             no_array.append(data[i])
-            for j in range(0,length):
+            for j in range(0,8):
                 no_mean[j] = no_mean[j] + data[i][j]
 
     #Divide the sum of every field by the amount of respectives examples
     #to get the mean
-    for j in range(0,length):
+    for j in range(0,8):
         yes_mean[j] = yes_mean[j]/yes_count
         no_mean[j] = no_mean[j]/no_count
 
     #Initialize variance arrays
-    yes_var = [0.0]*length
-    no_var = [0.0]*length
+    yes_var = [0.0]*8
+    no_var = [0.0]*8
 
     #For every example substract the media and elevate it two the potence of two
     for i in range(0,yes_count):
-        for j in range(0,length):
+        for j in range(0,8):
             yes_var[j] = yes_var[j] + (yes_array[i][j]-yes_mean[j])*(yes_array[i][j]-yes_mean[j])
     for i in range(0,no_count):
-        for j in range(0,length):
+        for j in range(0,8):
             no_var[j] = no_var[j] + (no_array[i][j]-no_mean[j])*(no_array[i][j]-no_mean[j])
 
     #Divide it by the amount of elements
-    for j in range(0,length):
+    for j in range(0,8):
         yes_var[j] = yes_var[j]/(yes_count-1)
         no_var[j] = no_var[j]/(no_count-1)
 
@@ -101,10 +98,8 @@ def naive_bayes(example,data):
     nb_yes = 1
     nb_no = 1
 
-    length = len(yes_mean)-1
-
     #Caluclate each condition probabilities
-    for i in range(0,length):
+    for i in range(0,8):
         nb_yes = nb_yes * normal_probability(example[i],yes_mean[i],yes_var[i])
         nb_no = nb_no * normal_probability(example[i],no_mean[i],no_var[i])
 

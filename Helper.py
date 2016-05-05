@@ -16,7 +16,7 @@ def readfile(file):
     data = []
     for line in f:
         #TODO Change it to windows format
-        line = line.replace("\n","")
+        line = line.replace("\r\n","")
         array_line = line.split(',')
         row = []
         length = len(array_line)-1
